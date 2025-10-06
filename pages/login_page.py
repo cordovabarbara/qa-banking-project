@@ -6,7 +6,7 @@ class LoginPage:
     #Localizadores
     USERNAME_INPUT = (By.NAME, 'username')
     PASSWORD_INPUT = (By.NAME, 'password')
-    LOGIN_BUTTON = (By.XPATH, '//input[@type="submit" and @value="Log in"]')
+    LOGIN_BUTTON = (By.XPATH, '//input[@type="submit" and @value="Log In"]')
 
     def __init__(self, driver):
         self.driver = driver
@@ -32,3 +32,4 @@ class LoginPage:
         self.enter_username(username)
         self.enter_password(password)
         self.click_login_button()
+        self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, "title")))
