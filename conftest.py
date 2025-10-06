@@ -78,3 +78,10 @@ def browser(request):
 
     yield driver
     driver.quit()
+
+# Fixture de la URL base
+BASE_URL = "https://parabank.parasoft.com/parabank/index.htm"
+
+@pytest.fixture(scope="session")
+def base_url():
+    return BASE_URL
