@@ -12,7 +12,7 @@ def pytest_runtest_makereport(item, call):
     report = outcome.get_result()
 
     if report.when == "call" and report.failed:
-        driver = item.funcargs.get('browserInstance', None)
+        driver = item.funcargs.get('browser', None)
         if driver:
             try:
                 # Carpeta de screenshots
