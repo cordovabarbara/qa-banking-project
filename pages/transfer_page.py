@@ -11,7 +11,8 @@ class TransferPage:
     TO_ACCOUNT_SELECT = (By.ID,"toAccountId")
     TRANSFER_BUTTON = (By.XPATH,"//input[@type='submit' and @value='Transfer']")
     SUCCESS_MESSAGE = (By.XPATH,"//h1[contains(text(),'Transfer Complete')]")
-    ERROR_MESSAGE = (By.XPATH,"//h1[@class='title' and contains(text(), 'Error')]")
+    ERROR_TITLE = (By.CSS_SELECTOR, "#showError .title")
+
 
     def __init__(self, driver):
         self.driver = driver
@@ -35,4 +36,11 @@ class TransferPage:
         return self.wait.until(EC.visibility_of_element_located(self.SUCCESS_MESSAGE)).text
 
     def get_error_message(self):
-            return self.driver.find_element(*self.ERROR_MESSAGE).text
+        #Mensaje de error después de una transferencia fallida
+        try:
+            error_element = WebDriverWait(self.driver, 5).until(
+                EC.visibility_of_element_located(self.ERROR_TITLE)
+            )
+            return error_element.text
+        except:
+            return ""
