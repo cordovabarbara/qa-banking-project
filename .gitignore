@@ -1,0 +1,13 @@
+# Archivos de entorno
+.env
+
+# Configuración local
+.idea/
+.vscode/
+
+# Archivos compilados
+__pycache__/
+*.pyc
+
+# WebDriver downloads
+drivers/
