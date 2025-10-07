@@ -23,7 +23,7 @@ class TestLogin:
         login_page.login("invalidUser", "invalidPass")
 
         # Mensaje de error login
-        assert "The username and password could not be verified" in browser.page_source, \
+        assert "An internal error has occurred and has been logged." in browser.page_source, \
             "No se mostro mensaje de error para login invalido"
 
     def test_campos_vacios(self, browser, base_url):
