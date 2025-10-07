@@ -1,4 +1,4 @@
-name: Python Selenium Tests
+name: QA Automation Tests
 
 on:
   push:
@@ -26,10 +26,20 @@ jobs:
     - name: Run tests and generate HTML report
       run: |
         mkdir -p reports/screenshots
-        pytest --html=reports/report.html --self-contained-html
+        pytest -v --html=reports/report.html --self-contained-html
 
     - name: Upload HTML report
       uses: actions/upload-artifact@v4
+      if:   always()
       with:
         name: test-report
         path: reports/report.html
+
+    - name: Upload screenshots
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-screenshots
+        path: reports/screenshots/
+
+
