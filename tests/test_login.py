@@ -10,7 +10,7 @@ class TestLogin:
     def test_login_page(self, browser, base_url):
         browser.get(base_url)
         login_page = LoginPage(browser)
-        login_page.login(("john"), ("demo"))
+        login_page.login(("john"), ("dem"))
 
         WebDriverWait(browser, 10).until(
             EC.presence_of_element_located((By.CLASS_NAME, "title")))
