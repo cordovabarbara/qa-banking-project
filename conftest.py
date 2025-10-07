@@ -1,5 +1,6 @@
 import os
 import pytest
+import base64
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
@@ -12,23 +13,29 @@ def pytest_runtest_makereport(item, call):
     report = outcome.get_result()
 
     if report.when == "call" and report.failed:
-        driver = item.funcargs.get('browser', None)
+        driver = item.funcargs.get("browser", None)
         if driver:
             try:
                 # Carpeta de screenshots
                 screenshots_dir = os.path.join(os.getcwd(), "reports", "screenshots")
                 os.makedirs(screenshots_dir, exist_ok=True)
 
-                # Nombre del screenshot = nombre del test
+                # Nombre del archivo = nombre del test
                 screenshot_file = os.path.join(screenshots_dir, f"{item.name}.png")
                 driver.save_screenshot(screenshot_file)
                 print(f"📸 Screenshot saved: {screenshot_file}")
 
-                # Incrusta en el reporte HTML
+                # Leer la imagen y convertirla a base64
+                with open(screenshot_file, "rb") as image_file:
+                    encoded_image = base64.b64encode(image_file.read()).decode("utf-8")
+
+                # Asegurar que extra existe
                 if not hasattr(report, "extra"):
                     report.extra = []
 
-                report.extra.append(extras.image(screenshot_file))
+                # Insertar la imagen en base64 directamente en el HTML
+                html_img = f'<img src="data:image/png;base64,{encoded_image}" width="400" />'
+                report.extra.append(extras.html(html_img))
 
             except Exception as e:
                 print(f"❌ Error capturing screenshot: {e}")
