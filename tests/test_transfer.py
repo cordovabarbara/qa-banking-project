@@ -14,7 +14,7 @@ class TestTransferFunds:
         return transfer_page
 
 
-    def test_transfer_success(self, browser, base_url):
+    def test_transferencia_exitosa(self, browser, base_url):
         transfer_page = self.login_and_open_transfer(browser, base_url)
         from_accounts = list(transfer_page.get_available_from_accounts().keys())
         to_accounts = list(transfer_page.get_available_to_accounts().keys())
@@ -32,7 +32,7 @@ class TestTransferFunds:
         success_message = transfer_page.get_success_message()
         assert "Transfer Complete" in success_message, "❌ La transferencia no se completó correctamente"
 
-    def test_transfer_without_amount(self, browser, base_url):
+    def test_transfer_sin_monto(self, browser, base_url):
         #Verifica que no se permita transferir sin ingresar monto
         transfer_page = self.login_and_open_transfer(browser, base_url)
         transfer_page.transfer(amount="")
