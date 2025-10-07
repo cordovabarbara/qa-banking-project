@@ -21,14 +21,38 @@ class TransferPage:
     def open_transfer_page(self):
         self.wait.until(EC.element_to_be_clickable(self.TRANSFER_FUNDS_LINK)).click()
 
+    def get_available_from_accounts(self):
+        from_select = Select(self.driver.find_element(*self.FROM_ACCOUNT_SELECT))
+        accounts = {}
+        for option in from_select.options:
+            value = option.get_attribute("value")
+            text = option.text
+            accounts[value] = text
+        return accounts
+
+    def get_available_to_accounts(self):
+        to_select = Select(self.driver.find_element(*self.TO_ACCOUNT_SELECT))
+        accounts = {}
+        for option in to_select.options:
+            value = option.get_attribute('value')
+            text = option.text
+            accounts[value] = text
+        return accounts
+
     def transfer(self, amount, from_account=None, to_account=None):
         self.driver.find_element(*self.AMOUNT_INPUT).send_keys(amount)
-        if from_account:
-            from_select = Select(self.driver.find_element(*self.FROM_ACCOUNT_SELECT))
-            from_select.select_by_value(from_account)
-        if to_account:
-            to_select = Select(self.driver.find_element(*self.TO_ACCOUNT_SELECT))
-            to_select.select_by_value(to_account)
+
+        # Seleccionar cuenta FROM (si no se especifica, usa la primera)
+        from_select = Select(self.driver.find_element(*self.FROM_ACCOUNT_SELECT))
+        if not from_account:
+            from_account = list(self.get_available_from_accounts().keys())[0]
+        from_select.select_by_value(from_account)
+
+        # Seleccionar cuenta TO (si no se especifica, usa la primera)
+        to_select = Select(self.driver.find_element(*self.TO_ACCOUNT_SELECT))
+        if not to_account:
+            to_account = list(self.get_available_to_accounts().keys())[0]
+        to_select.select_by_value(to_account)
 
         self.driver.find_element(*self.TRANSFER_BUTTON).click()
 
