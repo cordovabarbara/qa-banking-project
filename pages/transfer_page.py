@@ -13,7 +13,6 @@ class TransferPage:
     SUCCESS_MESSAGE = (By.XPATH,"//h1[contains(text(),'Transfer Complete')]")
     ERROR_TITLE = (By.CSS_SELECTOR, "#showError .title")
 
-
     def __init__(self, driver):
         self.driver = driver
         self.wait = WebDriverWait(self.driver, 10)
