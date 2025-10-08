@@ -4,13 +4,13 @@ from selenium.webdriver.support import expected_conditions as EC
 
 class RegisterPage:
     #Localizadores
-    REGISTER_LINK = (By.CSS_SELECTOR, "a[href='register.htm']")
+    REGISTER_LINK = (By.XPATH, "//a[@href='register.htm']")
     INPUT_FIRST_NAME = (By.ID, "customer.firstName")
     INPUT_LAST_NAME = (By.ID, "customer.lastName")
     INPUT_ADDRESS = (By.ID, "customer.address.street")
     INPUT_CITY = (By.ID, "customer.address.city")
     INPUT_STATE = (By.ID, "customer.address.state")
-    INPUT_ZIP = (By.ID, "customer.address.zip")
+    INPUT_ZIP = (By.ID, "customer.address.zipCode")
     INPUT_PHONE = (By.ID, "customer.phoneNumber")
     INPUT_SSN = (By.ID, "customer.ssn")
     USERNAME = (By.ID, "customer.username")
@@ -24,7 +24,9 @@ class RegisterPage:
 
     #Metodos
     def click_register_link(self):
-        self.driver.find_element(*self.REGISTER_LINK).click()
+        wait = WebDriverWait(self.driver, 10)
+        register_link = wait.until(EC.element_to_be_clickable(self.REGISTER_LINK))
+        register_link.click()
 
     def enter_first_name(self, first_name):
         self.driver.find_element(*self.INPUT_FIRST_NAME).send_keys(first_name)
